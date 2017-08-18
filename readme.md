@@ -3,10 +3,10 @@
 ## Build step
 ``` bash
 
-install dependencies
+# install dependencies
 yarn
 
-development
+# development
 yarn dev
 
 ```
