@@ -1,5 +1,7 @@
 # todo-list
 
+> wait for update
+
 ## Build step
 ``` bash
 
@@ -14,7 +16,7 @@ yarn dev
 ## Main technology
 
 - react
-- react-router
+- redux
 
 ## Demo gif
 
