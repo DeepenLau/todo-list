@@ -1,6 +1,6 @@
 # todo-list
 
-> wait for update
+> redux , no router version
 
 ## Build step
 ``` bash

@@ -1,36 +1,7 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import './list.styl'
-
-class List extends Component {
-  render() {
-    const {
-      list,
-      toggleItemStatus,
-      deleteTodoItem,
-      changeItemValue,
-      view
-    } = this.props
-
-    const item = list.map((item, index) => {
-      return (
-        <Item
-          key={item.id}
-          {...{
-            item,
-            toggleItemStatus,
-            deleteTodoItem,
-            changeItemValue,
-            view
-          }}/>)
-    })
-
-    return (
-      <ul className="list-wrap">
-        {item}
-      </ul>
-    )
-  }
-}
+import { toggleItemStatus, deleteTodoItem, changeItemValue } from '../../redux/actions'
 
 class Item extends Component {
   constructor (props) {
@@ -59,21 +30,21 @@ class Item extends Component {
     })
   }
 
-  onBlurEditInput = (item) => {
+  onBlurEditInput = (index) => {
     const { changeItemValue } = this.props
     const { editValue } = this.state
-    changeItemValue(editValue, item)
+    changeItemValue(editValue, index)
     this.setState({
       editing: false
     })
   }
 
-  onEnterItemValue = (keyCode, item) => {
+  onEnterItemValue = (keyCode, index) => {
     const { changeItemValue } = this.props
     const { editValue } = this.state
     if (keyCode !== 13) return
     if (!editValue) return
-    changeItemValue(editValue, item)
+    changeItemValue(editValue, index)
     this.setState({
       editing: false
     })
@@ -85,11 +56,11 @@ class Item extends Component {
     const { editing, editValue } = this.state
 
     const {
+      index,
       item,
+      currentFilter,
       toggleItemStatus,
-      deleteTodoItem,
-      // changeItemValue
-      view
+      deleteTodoItem
     } = this.props
 
     let itemClassName = 'item'
@@ -98,7 +69,7 @@ class Item extends Component {
     }
 
     let display = ''
-    switch (view) {
+    switch (currentFilter) {
       case 'Active':
         display = item.done ? 'none' : ''
         break
@@ -111,7 +82,7 @@ class Item extends Component {
 
     return (
       <li className={itemClassName} style={{ display: display }}>
-        <div className="dot" onClick={e => toggleItemStatus(item)}></div>
+        <div className="dot" onClick={e => toggleItemStatus(index)}></div>
         <div className="value" onDoubleClick={ e => toggleItemEditStatus() }>
           { item.value }
           <input
@@ -119,14 +90,77 @@ class Item extends Component {
             className={ editing ? 'editing' : '' }
             type="text" defaultValue={ item.value }
             onChange={ e => changeEditValue(e.target.value)}
-            onBlur={ e => onBlurEditInput(item) }
-            onKeyUp={ e => onEnterItemValue(e.keyCode, item)}
+            onBlur={ e => onBlurEditInput(index) }
+            onKeyUp={ e => onEnterItemValue(e.keyCode, index)}
           />
         </div>
-        <div className="delete" onClick={e => deleteTodoItem(item)}>+</div>
+        <div className="delete" onClick={e => deleteTodoItem(index)}>+</div>
       </li>
     )
   }
 }
 
-export default List
+class List extends Component {
+
+  changeItemValue = (value, index) => {
+    let { list, dispatch } = this.props
+
+    list[index].value = value
+
+    dispatch(changeItemValue(list))
+  }
+
+  deleteTodoItem = (index) => {
+    let { list, dispatch } = this.props
+
+    list.splice(index, 1)
+
+    dispatch(deleteTodoItem(list))
+  }
+
+  toggleItemStatus = (index) => {
+
+    let { list, dispatch } = this.props
+    let newItem = list[index]
+
+    newItem.done = !newItem.done
+
+    dispatch(toggleItemStatus(list))
+
+  }
+
+  render() {
+    const { toggleItemStatus, deleteTodoItem, changeItemValue } = this
+
+    const {
+      list,
+      currentFilter
+    } = this.props
+
+    const item = list.map((item, index) => {
+      return (
+        <Item key={item.id}
+          {...{
+            index,
+            item,
+            currentFilter,
+            toggleItemStatus,
+            deleteTodoItem,
+            changeItemValue
+          }}/>
+      )
+    })
+
+    return (
+      <ul className="list-wrap">
+        { item }
+      </ul>
+    )
+  }
+}
+
+function mapStateToProps(state) {
+  return state
+}
+
+export default connect(mapStateToProps)(List)

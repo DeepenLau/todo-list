@@ -1,43 +1,62 @@
 import React, { Component } from 'react';
-import { Link, withRouter } from 'react-router-dom'
+import { connect } from 'react-redux'
 import './toolbar.styl'
+import { clearAllDoneItem, changeCurrentFilter } from '../../redux/actions'
 
 class FilterItem extends Component {
 
   render() {
     let {
       item,
-      match,
-      location,
-      history
+      currentFilter,
+      changeCurrentFilter
     } = this.props
 
-
-
-    if (!location.state) {
-      location.state = {
-        view : item.title
-      }
-    }
-
     return (
-      <span className={location.state.view===item.title ? 'active' : ''}
-        onClick={ e => {
-          history.push(item.path, {
-            view: item.title
-          })
-        }}>
+      <span className={currentFilter===item.title ? 'active' : ''}
+        onClick={ e => changeCurrentFilter(item.title)}>
         { item.title }
       </span>
     )
   }
 }
 
-const FilterItemWithRouter = withRouter(FilterItem)
-
 class Toolbar extends Component {
+  constructor() {
+    super()
+    this.state = {
+      filterList: [
+        { title: 'All' },
+        { title: 'Active' },
+        { title: 'Done' }
+      ]
+    }
+  }
+
+  clearAllDoneItem = () => {
+    let { list, dispatch } = this.props
+
+    const newList = list.filter(item => {
+      return !item.done
+    })
+
+    dispatch(clearAllDoneItem(newList))
+  }
+
+  changeCurrentFilter = (filter) => {
+    let { currentFilter, dispatch } = this.props
+
+    currentFilter = filter
+
+    dispatch(changeCurrentFilter(currentFilter))
+  }
+
   render() {
-    let { list, clearAllDoneItem, filterList, location } = this.props
+    let { clearAllDoneItem, changeCurrentFilter } = this
+
+    let { list, currentFilter } = this.props
+
+    let { filterList } = this.state
 
     const activeList = list.filter(item => {
       return !item.done
@@ -47,9 +66,9 @@ class Toolbar extends Component {
 
     const filterListBtn = filterList.map(item => {
       return (
-        <FilterItemWithRouter
+        <FilterItem
           key={item.title}
-          {...{item}}/>
+          {...{item, currentFilter, changeCurrentFilter}}/>
         )
     })
     return (
@@ -69,4 +88,8 @@ class Toolbar extends Component {
   }
 }
 
-export default withRouter(Toolbar)
+function mapStateToProps (state) {
+  return state
+}
+
+export default connect(mapStateToProps)(Toolbar)
