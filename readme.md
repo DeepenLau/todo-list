@@ -1,5 +1,7 @@
 # todo-list
 
+> You can checkout the react-redux branch to see the redux version
+
 ## Build step
 ``` bash
 
