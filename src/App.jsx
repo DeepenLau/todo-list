@@ -1,9 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { test } from './redux/actions'
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
 import './App.styl';
-import PropTypes from 'prop-types'
 import Input from './components/input/input.jsx'
 import List from './components/list/list.jsx'
 import Toolbar from './components/toolbar/toolbar.jsx'
