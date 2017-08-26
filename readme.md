@@ -7,14 +7,14 @@
 - checkout react-router + react-redux branch
 
 ## Todo
-[x] react-router version
+<input type="checkbox" checked> react-router version
 <br>
-[x] react-redux version
+<input type="checkbox" checked> react-redux version
 <br>
-[x] react-router + react-redux version
+<input type="checkbox" checked> react-router + react-redux version
 <br>
-[ ] react-native Android version
+<input type="checkbox"> react-native Android version
 <br>
-[ ] react-native iOS version
+<input type="checkbox"> react-native iOS version
 <br>
-[ ] react-native Electron version
+<input type="checkbox"> react-native Electron version
