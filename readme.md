@@ -1,6 +1,6 @@
 # todo-list
 
-> redux , no router version
+> react + react-router + react-redux version
 
 ## Build step
 ``` bash
@@ -16,7 +16,8 @@ yarn dev
 ## Main technology
 
 - react
-- redux
+- react-router
+- react-redux
 
 ## Demo gif
 
