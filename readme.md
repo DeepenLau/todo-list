@@ -8,8 +8,13 @@
 
 ## Todo
 [x] react-router version
+<br>
 [x] react-redux version
+<br>
 [x] react-router + react-redux version
+<br>
 [ ] react-native Android version
+<br>
 [ ] react-native iOS version
+<br>
 [ ] react-native Electron version
