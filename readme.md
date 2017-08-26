@@ -20,4 +20,4 @@ yarn dev
 
 ## Demo gif
 
-![demo](./todolist.gif "demo")
+![demo](./redux+router.gif "demo")

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { NavLink, withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import './toolbar.styl'
 import { clearAllDoneItem, changeCurrentFilter } from '../../redux/actions'
@@ -8,31 +9,22 @@ class FilterItem extends Component {
   render() {
     let {
       item,
-      currentFilter,
-      changeCurrentFilter
+      location
     } = this.props
 
     return (
-      <span className={currentFilter===item.title ? 'active' : ''}
-        onClick={ e => changeCurrentFilter(item.title)}>
-        { item.title }
-      </span>
+      <NavLink to={item.path}>
+        <span className={location.pathname===item.path ? 'active' : ''}>
+          { item.filter }
+        </span>
+      </NavLink>
     )
   }
 }
 
-class Toolbar extends Component {
-  constructor() {
-    super()
-    this.state = {
-      filterList: [
-        { title: 'All' },
-        { title: 'Active' },
-        { title: 'Done' }
-      ]
-    }
-  }
+const FilterItemWithRouter = withRouter(FilterItem)
 
+class Toolbar extends Component {
   clearAllDoneItem = () => {
     let { list, dispatch } = this.props
 
@@ -43,20 +35,10 @@ class Toolbar extends Component {
     dispatch(clearAllDoneItem(newList))
   }
 
-  changeCurrentFilter = (filter) => {
-    let { currentFilter, dispatch } = this.props
-
-    currentFilter = filter
-
-    dispatch(changeCurrentFilter(currentFilter))
-  }
-
   render() {
     let { clearAllDoneItem, changeCurrentFilter } = this
 
-    let { list, currentFilter } = this.props
-
-    let { filterList } = this.state
+    let { list, routes } = this.props
 
     const activeList = list.filter(item => {
       return !item.done
@@ -64,11 +46,11 @@ class Toolbar extends Component {
 
     const activeLeftNum = activeList.length
 
-    const filterListBtn = filterList.map(item => {
+    const filterListBtn = routes.map(item => {
       return (
-        <FilterItem
-          key={item.title}
-          {...{item, currentFilter, changeCurrentFilter}}/>
+        <FilterItemWithRouter
+          key={item.filter}
+          {...{item}}/>
         )
     })
     return (

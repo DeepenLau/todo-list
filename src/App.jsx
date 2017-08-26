@@ -1,31 +1,35 @@
 import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import './App.styl';
-import Input from './components/input/input.jsx'
-import List from './components/list/list.jsx'
-import Toolbar from './components/toolbar/toolbar.jsx'
+import { Route, NavLink, Switch } from 'react-router-dom'
+import './App.styl'
+import routes from './router'
 
 class App extends Component {
-
-  render() {
-
-    const { list } = this.props
-
+  render () {
     return (
-      <div id="app" className="app">
-        <h1>todos</h1>
-        <Input/>
-        <List/>
-        <Toolbar/>
+      <div>
+        <div className="navbar">
+          <NavLink to="/" className="nav">首页</NavLink>
+          <NavLink to="/todo" className="nav">todo</NavLink>
+        </div>
+        <Switch>
+        {
+          routes.map(route => {
+            return (
+              <Route
+                exact={route.exact}
+                key={route.path}
+                path={route.path}
+                render={props => (
+                  <route.component {...props} routes={route.routes}/>
+                )}>
+              </Route>
+            )
+          })
+        }
+        </Switch>
       </div>
     )
   }
 }
 
-// 这里是用来在组件中取出部分你想要的数据，然后 connect 给组件的 props
-function mapStateToProps(state) {
-  return state
-}
-
-export default connect(mapStateToProps)(App)
-
+export default App

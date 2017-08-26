@@ -35,19 +35,19 @@ function list (list = initialState.list, action) {
   }
 }
 
-function currentFilter (filter = initialState.currentFilter, action) {
-  switch (action.type) {
-    case CHANGE_CURRENT_FILTER:
-      return action.filter
-    default:
-      return filter
-  }
-}
+// function currentFilter (filter = initialState.currentFilter, action) {
+//   switch (action.type) {
+//     case CHANGE_CURRENT_FILTER:
+//       return action.filter
+//     default:
+//       return filter
+//   }
+// }
 
 function todoApp (state = {}, action) {
   return {
-    list: list(state.list, action),
-    currentFilter: currentFilter(state.currentFilter, action)
+    list: list(state.list, action)
+    // currentFilter: currentFilter(state.currentFilter, action)
   }
 }
 

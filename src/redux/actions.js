@@ -9,7 +9,7 @@ export const DELETE_TODO_ITEM = 'DELETE_TODO_ITEM'
 export const CHANGE_ITEM_VALUE = 'CHANGE_ITEM_VALUE'
 export const CLEAR_ALL_DONE_ITEM = 'CLEAR_ALL_DONE_ITEM'
 
-export const CHANGE_CURRENT_FILTER = 'CHANGE_CURRENT_FILTER'
+// export const CHANGE_CURRENT_FILTER = 'CHANGE_CURRENT_FILTER'
 
 /*
  * 其它的常量
@@ -47,7 +47,6 @@ export function clearAllDoneItem(list) {
 }
 
 
-export function changeCurrentFilter(filter) {
-  console.log(filter)
-  return { type: CHANGE_CURRENT_FILTER, filter }
-}
+// export function changeCurrentFilter(filter) {
+//   return { type: CHANGE_CURRENT_FILTER, filter }
+// }

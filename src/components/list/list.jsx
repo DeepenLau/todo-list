@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import './list.styl'
 import { toggleItemStatus, deleteTodoItem, changeItemValue } from '../../redux/actions'
@@ -60,7 +61,8 @@ class Item extends Component {
       item,
       currentFilter,
       toggleItemStatus,
-      deleteTodoItem
+      deleteTodoItem,
+      location
     } = this.props
 
     let itemClassName = 'item'
@@ -69,11 +71,11 @@ class Item extends Component {
     }
 
     let display = ''
-    switch (currentFilter) {
-      case 'Active':
+    switch (location.pathname) {
+      case '/todo/Active':
         display = item.done ? 'none' : ''
         break
-      case 'Done':
+      case '/todo/Done':
         display = !item.done ? 'none' : ''
         break
       default:
@@ -99,6 +101,8 @@ class Item extends Component {
     )
   }
 }
+
+const ItemWithRouter = withRouter(Item)
 
 class List extends Component {
 
@@ -133,17 +137,15 @@ class List extends Component {
     const { toggleItemStatus, deleteTodoItem, changeItemValue } = this
 
     const {
-      list,
-      currentFilter
+      list
     } = this.props
 
     const item = list.map((item, index) => {
       return (
-        <Item key={item.id}
+        <ItemWithRouter key={item.id}
           {...{
             index,
             item,
-            currentFilter,
             toggleItemStatus,
             deleteTodoItem,
             changeItemValue
